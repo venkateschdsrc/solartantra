@@ -1,0 +1,21 @@
+/* Make header visually transparent and hide text links so the hero covers the top */
+.site-header{
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	background:transparent;
+	z-index:6;
+	padding:0.5rem 0;
+}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.site-header .brand{color:transparent;/* visually hide brand while keeping markup for accessibility */}
+.site-header .nav{display:flex;gap:1rem}
+.site-header .nav a{color:transparent;text-decoration:none}
+
+/* ensure hero sits behind header but fills the viewport */
+.hero{position:relative;z-index:1}
+
+/* hide duplicate footer stray markup if present */
+.site-footer{z-index:2}
+

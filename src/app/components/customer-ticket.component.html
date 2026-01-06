@@ -1,0 +1,88 @@
+<section class="ticket-hero">
+  <img src="/images/logo.png" alt="Solartantra Logo" class="ticket-logo" />
+
+  <div class="container">
+    <h1 class="ticket-title">Create a Request Ticket</h1>
+    <p class="ticket-subtitle">We're here to help with your concerns</p>
+
+    <form class="ticket-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="customerId">Unique Customer ID *</label>
+        <input
+          id="customerId"
+          type="text"
+          name="customerId"
+          [(ngModel)]="form.customerId"
+          maxlength="50"
+          placeholder="Enter your customer ID"
+          class="form-control"
+          [class.is-invalid]="errors['customerId']"
+        />
+        <div *ngIf="errors['customerId']" class="error-message">
+          {{ errors['customerId'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="ticketType">Request Type *</label>
+        <select
+          id="ticketType"
+          name="ticketType"
+          [(ngModel)]="form.ticketType"
+          class="form-control"
+          [class.is-invalid]="errors['ticketType']"
+        >
+          <option value="" disabled selected>Select request type</option>
+          <option value="Service">Service</option>
+          <option value="Issue">Issue</option>
+        </select>
+        <div *ngIf="errors['ticketType']" class="error-message">
+          {{ errors['ticketType'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Describe Your Case *</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="form.description"
+          maxlength="500"
+          placeholder="Please describe your request in detail"
+          class="form-control"
+          rows="6"
+          [class.is-invalid]="errors['description']"
+        ></textarea>
+        <span class="char-count">{{ form.description.length }}/500</span>
+        <div *ngIf="errors['description']" class="error-message">
+          {{ errors['description'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="attachment">Upload Image (Optional)</label>
+        <input
+          id="attachment"
+          type="file"
+          name="attachment"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="form-control"
+        />
+        <span class="helper-text">Accepted formats: JPG, PNG, GIF, WebP • Max file size: 5 MB</span>
+        <div *ngIf="errors['attachment']" class="error-message">
+          {{ errors['attachment'] }}
+        </div>
+        <div *ngIf="form.attachment" class="file-selected">
+          📎 {{ form.attachment.name }} ({{ (form.attachment.size / 1024 / 1024).toFixed(2) }} MB)
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="!isFormValid()">Submit Ticket</button>
+
+      <div *ngIf="submitMessage" [class]="submitMessage.includes('successfully') ? 'success-message' : 'error-message'">
+        {{ submitMessage }}
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+<section class="hero">
+  <div class="container">
+    <div class="logo-wrap">
+      <img
+        #logoImg
+        src="/images/logo.png"
+        alt="Solartantra"
+        class="hero-logo"
+        (load)="onLogoLoad()"
+        (error)="onLogoError()"
+        [class.loaded]="logoLoaded"
+        loading="eager"
+      />
+      <div *ngIf="!logoLoaded" class="logo-spinner" aria-hidden="true">
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Buttons Group - Fixed Top Right - Show after images load -->
+<div class="cta-buttons-fixed" [class.visible]="logoLoaded">
+  <button class="btn-cta" (click)="navigateToEnrol()">Enrol</button>
+  <span class="btn-separator">|</span>
+  <button class="btn-cta" (click)="navigateToBookVisit()">Book a free site visit</button>
+  <span class="btn-separator">|</span>
+  <button class="btn-cta" (click)="navigateToCustomerTicket()">Existing Customers</button>
+  <span class="btn-separator">|</span>
+  <button class="btn-cta" (click)="navigateToAbout()">About us</button>
+  <span class="btn-separator">|</span>
+  <button class="btn-cta" (click)="navigateToFaq()">FAQ</button>
+</div>
+

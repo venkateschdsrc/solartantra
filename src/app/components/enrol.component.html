@@ -1,0 +1,134 @@
+<section class="enrol-hero">
+  <!-- Logo positioned top-right -->
+  <img src="/images/logo.png" alt="Solartantra Logo" class="enrol-logo" />
+  
+  <div class="container">
+    <h1 class="enrol-title">Enrol Now</h1>
+    <p class="enrol-subtitle">Join our community and start your journey</p>
+
+    <form class="enrol-form" (ngSubmit)="onSubmit()">
+      <!-- Consumer Name -->
+      <div class="form-group">
+        <label for="consumerName">Consumer Name *</label>
+        <input
+          id="consumerName"
+          type="text"
+          name="consumerName"
+          [(ngModel)]="form.consumerName"
+          maxlength="100"
+          placeholder="Enter your full name"
+          class="form-control"
+          [class.is-invalid]="errors['consumerName']"
+        />
+        <span class="char-count">{{ form.consumerName.length }}/100</span>
+        <div *ngIf="errors['consumerName']" class="error-message">
+          {{ errors['consumerName'] }}
+        </div>
+      </div>
+
+      <!-- Consumer Number -->
+      <div class="form-group">
+        <label for="consumerNumber">Consumer Number *</label>
+        <input
+          id="consumerNumber"
+          type="text"
+          name="consumerNumber"
+          [(ngModel)]="form.consumerNumber"
+          maxlength="16"
+          placeholder="Enter 16-digit consumer number"
+          class="form-control"
+          [class.is-invalid]="errors['consumerNumber']"
+          (input)="form.consumerNumber = form.consumerNumber.replace(/[^0-9]/g, '')"
+        />
+        <div *ngIf="errors['consumerNumber']" class="error-message">
+          {{ errors['consumerNumber'] }}
+        </div>
+      </div>
+
+      <!-- Consumer Address -->
+      <div class="form-group">
+        <label for="consumerAddress">Consumer Address *</label>
+        <textarea
+          id="consumerAddress"
+          name="consumerAddress"
+          [(ngModel)]="form.consumerAddress"
+          maxlength="500"
+          placeholder="Enter your complete address"
+          class="form-control"
+          rows="5"
+          [class.is-invalid]="errors['consumerAddress']"
+        ></textarea>
+        <span class="char-count">{{ form.consumerAddress.length }}/500</span>
+        <div *ngIf="errors['consumerAddress']" class="error-message">
+          {{ errors['consumerAddress'] }}
+        </div>
+      </div>
+
+      <!-- Postal Code -->
+      <div class="form-group">
+        <label for="postalCode">Postal Code *</label>
+        <input
+          id="postalCode"
+          type="text"
+          name="postalCode"
+          [(ngModel)]="form.postalCode"
+          maxlength="6"
+          placeholder="Enter 6-digit postal code"
+          class="form-control"
+          [class.is-invalid]="errors['postalCode']"
+          (input)="form.postalCode = form.postalCode.replace(/[^0-9]/g, '').slice(0, 6)"
+        />
+        <div *ngIf="errors['postalCode']" class="error-message">
+          {{ errors['postalCode'] }}
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phoneNumber">Phone No *</label>
+        <input
+          id="phoneNumber"
+          type="text"
+          name="phoneNumber"
+          [(ngModel)]="form.phoneNumber"
+          maxlength="10"
+          placeholder="Enter 10-digit phone number"
+          class="form-control"
+          [class.is-invalid]="errors['phoneNumber']"
+          (input)="form.phoneNumber = form.phoneNumber.replace(/[^0-9]/g, '').slice(0, 10)"
+        />
+        <div *ngIf="errors['phoneNumber']" class="error-message">
+          {{ errors['phoneNumber'] }}
+        </div>
+      </div>
+
+      <!-- Upload Bill Photo (Optional) -->
+      <div class="form-group">
+        <label for="billPhoto">Upload Electricity Bill Photo (Optional)</label>
+        <input
+          id="billPhoto"
+          type="file"
+          name="billPhoto"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="form-control"
+        />
+        <span class="helper-text">Accepted formats: JPG, PNG, GIF, WebP • Max file size: 5 MB</span>
+        <div *ngIf="errors['billPhoto']" class="error-message">
+          {{ errors['billPhoto'] }}
+        </div>
+        <div *ngIf="form.billPhoto" class="file-selected">
+          📎 {{ form.billPhoto.name }} ({{ (form.billPhoto.size / 1024 / 1024).toFixed(2) }} MB)
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-submit" [disabled]="!isFormValid()">Submit Enrolment</button>
+
+      <!-- Success/Error Message -->
+      <div *ngIf="submitMessage" [class]="submitMessage.includes('successful') ? 'success-message' : 'error-message'">
+        {{ submitMessage }}
+      </div>
+    </form>
+  </div>
+</section>

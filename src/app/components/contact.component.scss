@@ -1,0 +1,6 @@
+.container{max-width:700px;margin:0 auto;padding:1rem}
+.contact-form{display:flex;flex-direction:column;gap:.75rem}
+.contact-form label{display:flex;flex-direction:column;font-weight:600}
+.contact-form input,.contact-form textarea{padding:.5rem;border:1px solid #ddd;border-radius:6px}
+.success{color:green;margin-top:1rem}
+.btn.primary{background:#0066ff;color:#fff;padding:.6rem 1rem;border-radius:6px;border:0}

@@ -1,0 +1,88 @@
+<section class="visit-hero">
+  <img src="/images/logo.png" alt="Solartantra Logo" class="visit-logo" />
+
+  <div class="container">
+    <h1 class="visit-title">Book a Free Site Visit</h1>
+    <p class="visit-subtitle">Tell us where to come and we will handle the rest</p>
+
+    <form class="visit-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="fullName">Name *</label>
+        <input
+          id="fullName"
+          type="text"
+          name="fullName"
+          [(ngModel)]="form.fullName"
+          maxlength="100"
+          placeholder="Enter your full name"
+          class="form-control"
+          [class.is-invalid]="errors['fullName']"
+        />
+        <span class="char-count">{{ form.fullName.length }}/100</span>
+        <div *ngIf="errors['fullName']" class="error-message">
+          {{ errors['fullName'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address *</label>
+        <textarea
+          id="address"
+          name="address"
+          [(ngModel)]="form.address"
+          maxlength="500"
+          placeholder="Enter the site address"
+          class="form-control"
+          rows="5"
+          [class.is-invalid]="errors['address']"
+        ></textarea>
+        <span class="char-count">{{ form.address.length }}/500</span>
+        <div *ngIf="errors['address']" class="error-message">
+          {{ errors['address'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="postalCode">Postal Code *</label>
+        <input
+          id="postalCode"
+          type="text"
+          name="postalCode"
+          [(ngModel)]="form.postalCode"
+          maxlength="6"
+          placeholder="Enter 6-digit postal code"
+          class="form-control"
+          [class.is-invalid]="errors['postalCode']"
+          (input)="form.postalCode = form.postalCode.replace(/[^0-9]/g, '').slice(0, 6)"
+        />
+        <div *ngIf="errors['postalCode']" class="error-message">
+          {{ errors['postalCode'] }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone No *</label>
+        <input
+          id="phoneNumber"
+          type="text"
+          name="phoneNumber"
+          [(ngModel)]="form.phoneNumber"
+          maxlength="10"
+          placeholder="Enter 10-digit phone number"
+          class="form-control"
+          [class.is-invalid]="errors['phoneNumber']"
+          (input)="form.phoneNumber = form.phoneNumber.replace(/[^0-9]/g, '').slice(0, 10)"
+        />
+        <div *ngIf="errors['phoneNumber']" class="error-message">
+          {{ errors['phoneNumber'] }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="!isFormValid()">Book Site Visit</button>
+
+      <div *ngIf="submitMessage" [class]="submitMessage.includes('received') ? 'success-message' : 'error-message'">
+        {{ submitMessage }}
+      </div>
+    </form>
+  </div>
+</section>

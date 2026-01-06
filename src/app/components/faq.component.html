@@ -1,0 +1,18 @@
+<section class="faq-hero">
+  <img src="/images/logo.png" alt="Solartantra Logo" class="faq-logo" />
+
+  <div class="container">
+    <h1 class="faq-title">Frequently Asked Questions</h1>
+    <p class="faq-subtitle">Straight answers on our empanelment, delivery, and support</p>
+
+    <div class="faq-list">
+      <div class="faq-item" *ngFor="let faq of faqs; index as i">
+        <div class="faq-q">
+          <span class="pill">{{ i + 1 }}</span>
+          <h2>{{ faq.question }}</h2>
+        </div>
+        <p class="faq-a">{{ faq.answer }}</p>
+      </div>
+    </div>
+  </div>
+</section>
