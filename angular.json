@@ -32,7 +32,7 @@
               {
                 "glob": "**/*",
                 "input": "images",
-                "output": "/images"
+                "output": "images"
               }
             ],
             "styles": [
