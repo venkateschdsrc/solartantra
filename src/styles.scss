@@ -34,6 +34,7 @@ body::after {
   width: 1px;
   height: 1px;
   background: url('/images/homepage.png') no-repeat -9999px -9999px;
+    background: url('/solartantra/images/homepage.png') no-repeat -9999px -9999px;
   pointer-events: none;
   visibility: hidden;
 }
