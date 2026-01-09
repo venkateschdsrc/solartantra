@@ -9,24 +9,55 @@ import { RouterModule, Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
   logoLoaded = false;
   showEnrol = false;
+  private bgImageLoaded = false;
+  private imagesReady = false;
   @ViewChild('logoImg', { static: true }) logoImg!: ElementRef<HTMLImageElement>;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    // Preload and decode background image before animations start
+    const bgImage = new Image();
+    bgImage.src = '/images/homepage.png';
+    bgImage.decode()
+      .then(() => {
+        this.bgImageLoaded = true;
+        this.checkImagesReady();
+      })
+      .catch(() => {
+        // Fallback if decode not supported or fails
+        bgImage.onload = () => {
+          this.bgImageLoaded = true;
+          this.checkImagesReady();
+        };
+      });
+  }
 
   ngAfterViewInit(): void {
     const img = this.logoImg?.nativeElement;
-    if (img && img.complete && img.naturalWidth !== 0) {
-      // image already loaded (from cache) — trigger handlers
-      this.onLogoLoad();
+    if (img) {
+      if (img.complete && img.naturalWidth !== 0) {
+        // Image already loaded from cache
+        img.decode()
+          .then(() => this.onLogoLoad())
+          .catch(() => this.onLogoLoad());
+      }
+    }
+  }
+
+  private checkImagesReady(): void {
+    if (this.bgImageLoaded && !this.imagesReady) {
+      this.imagesReady = true;
+      // Background is ready, animations can proceed smoothly
+      document.documentElement.style.setProperty('--bg-ready', '1');
     }
   }
 
   onLogoLoad() {
     this.logoLoaded = true;
-    // reveal the Enrol button after animations complete (delay + duration = 0.6s + 6s)
+    this.checkImagesReady();
+    // reveal the Enrol button after animations complete
     setTimeout(() => {
       this.showEnrol = true;
     }, 6600);

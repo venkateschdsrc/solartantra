@@ -1,19 +1,21 @@
-<div class="container">
-  <h1>Contact Us</h1>
-  <form (submit)="onSubmit($event)" class="contact-form">
-    <label>
-      Name
-      <input type="text" [(ngModel)]="name" name="name" required />
-    </label>
-    <label>
-      Email
-      <input type="email" [(ngModel)]="email" name="email" required />
-    </label>
-    <label>
-      Message
-      <textarea [(ngModel)]="message" name="message" rows="5" required></textarea>
-    </label>
-    <button type="submit" class="btn primary">Send</button>
-  </form>
-  <p *ngIf="success" class="success">Thanks — we'll get back to you shortly.</p>
+<div class="contact-page">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <form (submit)="onSubmit($event)" class="contact-form">
+      <label>
+        Name
+        <input type="text" [(ngModel)]="name" name="name" required />
+      </label>
+      <label>
+        Email
+        <input type="email" [(ngModel)]="email" name="email" required />
+      </label>
+      <label>
+        Message
+        <textarea [(ngModel)]="message" name="message" rows="5" required></textarea>
+      </label>
+      <button type="submit" class="btn primary">Send</button>
+    </form>
+    <p *ngIf="success" class="success">Thanks — we'll get back to you shortly.</p>
+  </div>
 </div>

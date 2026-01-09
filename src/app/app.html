@@ -3,14 +3,29 @@
 <header class="site-header">
   <div class="container">
     <a class="brand" routerLink="/">Solartantra</a>
-    <nav class="nav">
-      <a routerLink="/" routerLinkActive="active" aria-current="page">Home</a>
-      <a routerLink="/services" routerLinkActive="active">Services</a>
-      <a routerLink="/about" routerLinkActive="active">About</a>
-      <a routerLink="/contact" routerLinkActive="active">Contact</a>
-      <a routerLink="/enrol" routerLinkActive="active">Enrol</a>
-      <a routerLink="/book-visit" routerLinkActive="active">Book Visit</a>
-    </nav>
+
+    <div class="menu-wrapper" [class.open]="menuOpen()" [class.visible]="isHomePage() && hamburgerVisible()" *ngIf="isHomePage()">
+      <button
+        type="button"
+        class="hamburger"
+        aria-label="Toggle navigation"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="toggleMenu()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="close-icon">x</span>
+      </button>
+
+      <nav class="nav-panel" [attr.aria-hidden]="!menuOpen()" (click)="closeMenu()">
+        <a routerLink="/enrol" routerLinkActive="active">Enrol</a>
+        <a routerLink="/book-visit" routerLinkActive="active">Book a free site visit</a>
+        <a routerLink="/customer-ticket" routerLinkActive="active">Existing Customers</a>
+        <a routerLink="/about" routerLinkActive="active">About us</a>
+        <a routerLink="/faq" routerLinkActive="active">FAQ</a>
+      </nav>
+    </div>
   </div>
 </header>
 <main class="site-main">

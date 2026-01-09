@@ -1,17 +1,197 @@
-/* Make header visually transparent and hide text links so the hero covers the top */
 .site-header{
-	position:absolute;
-	left:0;
-	right:0;
-	top:0;
-	background:transparent;
-	z-index:6;
-	padding:0.5rem 0;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  background:transparent;
+  z-index:8;
+  padding:0.65rem 0;
 }
-.site-header .container{display:flex;align-items:center;justify-content:space-between}
-.site-header .brand{color:transparent;/* visually hide brand while keeping markup for accessibility */}
-.site-header .nav{display:flex;gap:1rem}
-.site-header .nav a{color:transparent;text-decoration:none}
+
+.site-header .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.site-header .brand{
+  color:#ffffff;
+  text-decoration:none;
+  font-weight:700;
+  letter-spacing:0.4px;
+  opacity:0.75;
+  transition:opacity 0.3s ease;
+}
+
+.site-header .brand:hover{opacity:1}
+
+.menu-wrapper{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-end;
+  flex:0 0 auto;
+  opacity:0;
+  transform:translateY(-4px);
+  transition:opacity 0.8s ease, transform 0.8s ease;
+  pointer-events:none;
+}
+
+.menu-wrapper.visible{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.hamburger{
+  width:50px;
+  height:50px;
+  padding:0;
+  display:inline-flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:10px;
+  cursor:pointer;
+  transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow:0 10px 28px rgba(0,0,0,0.25);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  position:relative;
+}
+
+.hamburger span{
+  display:block;
+  width:20px;
+  height:2.5px;
+  border-radius:2px;
+  background:#fff;
+  transition:transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease;
+  transform-origin:center;
+  position:absolute;
+}
+
+.hamburger span:nth-child(1){
+  top:15px;
+}
+
+.hamburger span:nth-child(2){
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.hamburger span:nth-child(3){
+  bottom:15px;
+}
+
+.hamburger .close-icon{
+  display:none;
+  font-size:20px;
+  font-weight:300;
+  color:#fff;
+  line-height:1;
+  letter-spacing:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  position:absolute;
+  opacity:0;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -55%);
+  margin:0;
+  padding:0;
+  width:auto;
+  height:auto;
+}
+
+.menu-wrapper.open .hamburger span:nth-child(1),
+.menu-wrapper.open .hamburger span:nth-child(2),
+.menu-wrapper.open .hamburger span:nth-child(3){
+  display:none;
+}
+
+.menu-wrapper.open .hamburger .close-icon{
+  display:block;
+  opacity:1;
+}
+
+.hamburger:hover{transform:translateY(-1px) scale(1.02);background:rgba(0,0,0,0.45);box-shadow:0 16px 32px rgba(0,0,0,0.32)}
+.hamburger:active{transform:scale(0.99)}
+
+.nav-panel{
+  position:absolute;
+  top:52px;
+  right:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:0.1rem;
+  min-width:190px;
+  padding:0.5rem 0.75rem;
+  background:rgba(0,0,0,0.72);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:12px;
+  box-shadow:0 16px 36px rgba(0,0,0,0.45);
+  opacity:0;
+  transform:translateY(-8px);
+  pointer-events:none;
+  transition:opacity 0.25s ease, transform 0.25s ease;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.menu-wrapper.open .nav-panel{opacity:1;transform:translateY(0);pointer-events:auto}
+
+.nav-panel a{
+  width:100%;
+  color:#fff;
+  text-decoration:none;
+  padding:0.6rem 0.55rem;
+  border-radius:8px;
+  font-weight:600;
+  letter-spacing:0.25px;
+  transition:background 0.2s ease, transform 0.15s ease;
+}
+
+.nav-panel a:hover{background:rgba(255,255,255,0.08);transform:translateX(2px)}
+.nav-panel a.active{background:rgba(0,158,77,0.28);border:1px solid rgba(0,158,77,0.6)}
+
+/* Mobile menu scroll for small screens (375x667 or lower) */
+@media (max-width: 375px), (max-height: 667px) and (max-width: 500px) {
+  .nav-panel{
+    max-height:200px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    flex-wrap:wrap;
+  }
+  
+  .nav-panel::-webkit-scrollbar{
+    width:8px;
+  }
+  
+  .nav-panel::-webkit-scrollbar-track{
+    background:rgba(255,255,255,0.08);
+    border-radius:4px;
+  }
+  
+  .nav-panel::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,0.4);
+    border-radius:4px;
+  }
+  
+  .nav-panel::-webkit-scrollbar-thumb:hover{
+    background:rgba(255,255,255,0.6);
+  }
+  
+  /* Firefox scrollbar */
+  .nav-panel{
+    scrollbar-width:thin;
+    scrollbar-color:rgba(255,255,255,0.4) rgba(255,255,255,0.08);
+  }
+}
 
 /* ensure hero sits behind header but fills the viewport */
 .hero{position:relative;z-index:1}

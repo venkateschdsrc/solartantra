@@ -25,3 +25,15 @@ app-root {
   width: 100%;
   min-height: 100vh;
 }
+
+/* Preload hero background to avoid first-reveal hitching */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -9999px;
+  width: 1px;
+  height: 1px;
+  background: url('/images/homepage.png') no-repeat -9999px -9999px;
+  pointer-events: none;
+  visibility: hidden;
+}
