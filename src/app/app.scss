@@ -159,13 +159,12 @@
 .nav-panel a:hover{background:rgba(255,255,255,0.08);transform:translateX(2px)}
 .nav-panel a.active{background:rgba(0,158,77,0.28);border:1px solid rgba(0,158,77,0.6)}
 
-/* Mobile menu scroll for small screens (375x667 or lower) */
-@media (max-width: 375px), (max-height: 667px) and (max-width: 500px) {
+/* Mobile menu scroll for small screens */
+@media (max-height: 700px) {
   .nav-panel{
-    max-height:200px;
-    overflow-y:scroll;
+    max-height:calc(100vh - 120px);
+    overflow-y:auto;
     overflow-x:hidden;
-    flex-wrap:wrap;
   }
   
   .nav-panel::-webkit-scrollbar{
@@ -190,6 +189,12 @@
   .nav-panel{
     scrollbar-width:thin;
     scrollbar-color:rgba(255,255,255,0.4) rgba(255,255,255,0.08);
+  }
+}
+
+@media (max-height: 500px) {
+  .nav-panel{
+    max-height:calc(100vh - 90px);
   }
 }
 
