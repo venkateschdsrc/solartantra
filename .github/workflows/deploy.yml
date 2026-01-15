@@ -30,11 +30,11 @@ jobs:
         run: npm install
       
       - name: Build Angular app
-        run: npm run build:prod -- --base-href=/solartantra/
+        run: npm run build:prod -- --base-href=/
 
       - name: Create SPA fallback (404 redirect)
         run: |
-          cp dist/solartantra/browser/index.html dist/solartantra/browser/404.html
+          cp dist/solartantra/index.html dist/solartantra/404.html
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/solartantra/browser'
+          path: 'dist/solartantra'
       
       - name: Deploy to GitHub Pages
         id: deployment
