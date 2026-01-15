@@ -32,9 +32,20 @@ jobs:
       - name: Build Angular app
         run: npm run build:prod -- --base-href=/
 
+      - name: Resolve build output directory
+        run: |
+          if [ -f dist/solartantra/index.html ]; then
+            echo "OUTPUT_DIR=dist/solartantra" >> $GITHUB_ENV
+          elif [ -f dist/solartantra/browser/index.html ]; then
+            echo "OUTPUT_DIR=dist/solartantra/browser" >> $GITHUB_ENV
+          else
+            echo "index.html not found in expected output folders" >&2
+            exit 1
+          fi
+
       - name: Create SPA fallback (404 redirect)
         run: |
-          cp dist/solartantra/index.html dist/solartantra/404.html
+          cp "$OUTPUT_DIR/index.html" "$OUTPUT_DIR/404.html"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -42,7 +53,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/solartantra'
+          path: ${{ env.OUTPUT_DIR }}
       
       - name: Deploy to GitHub Pages
         id: deployment
