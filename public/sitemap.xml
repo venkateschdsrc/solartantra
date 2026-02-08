@@ -2,38 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <!-- 1. Homepage -->
    <url>
-      <loc>https://your-domain.com/</loc>
+      <loc>https://www.solartantra.com/</loc>
       <lastmod>2026-02-08</lastmod>
       <priority>1.00</priority>
    </url>
 
    <!-- 2. Enrol Page -->
    <url>
-      <loc>https://your-domain.com/enrol</loc>
+      <loc>https://www.solartantra.com/enrol</loc>
       <priority>1.00</priority>
    </url>
 
    <!-- 3. Book Visit Page -->
    <url>
-      <loc>https://your-domain.com/book-visit</loc>
+      <loc>https://www.solartantra.com/book-visit</loc>
       <priority>1.00</priority>
    </url>
 
     <!-- 4. Create Ticket -->
    <url>
-      <loc>https://your-domain.com/customer-ticket</loc>
+      <loc>https://www.solartantra.com/customer-ticket</loc>
       <priority>1.00</priority>
    </url>
 
     <!-- 5. About Us -->
    <url>
-      <loc>https://your-domain.com/about</loc>
+      <loc>https://www.solartantra.com/about</loc>
       <priority>1.00</priority>
    </url>   
 
     <!-- 6. FAQ -->
    <url>
-      <loc>https://your-domain.com/faq</loc>
+      <loc>https://www.solartantra.com/faq</loc>
       <priority>1.00</priority>
    </url>      
 </urlset>
