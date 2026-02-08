@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import emailjs from '@emailjs/browser';
+//import emailjs from '@emailjs/browser';
 
 @Component({
   standalone: true,
@@ -25,7 +25,7 @@ export class BookVisitComponent implements OnInit {
     const publicKey = 'YOUR_PUBLIC_KEY_HERE';
     if (publicKey && publicKey !== 'YOUR_PUBLIC_KEY_HERE') {
       try {
-        emailjs.init(publicKey);
+     //   emailjs.init(publicKey);
       } catch (error) {
         console.error('Failed to initialize EmailJS:', error);
       }
@@ -92,7 +92,7 @@ export class BookVisitComponent implements OnInit {
       message: `New site visit request from ${this.form.fullName}.\n\nAddress: ${this.form.address}\n\nPostal Code: ${this.form.postalCode}\n\nPhone Number: ${this.form.phoneNumber}`,
     };
 
-    emailjs
+    /* emailjs
       .send(serviceId, templateId, emailParams)
       .then((response) => {
         console.log('Email sent successfully:', response.status, response.text);
@@ -103,7 +103,7 @@ export class BookVisitComponent implements OnInit {
         console.error('Failed to send email:', error);
         this.submitMessage = 'Request received! We will contact you shortly to schedule your site visit.';
         this.resetForm();
-      });
+      }); */
   }
 
   resetForm(): void {
