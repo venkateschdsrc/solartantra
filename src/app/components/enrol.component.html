@@ -123,7 +123,9 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn-submit" [disabled]="!isFormValid()">Submit Enrolment</button>
+      <button type="submit" class="btn-submit" [disabled]="!isFormValid() || submitInProgress">
+        {{ submitInProgress ? 'Submitting…' : 'Submit Enrolment' }}
+      </button>
 
       <!-- Success/Error Message -->
       <div *ngIf="submitMessage" [class]="submitMessage.includes('successful') ? 'success-message' : 'error-message'">

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import emailjs from '@emailjs/browser';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -10,7 +12,9 @@ import emailjs from '@emailjs/browser';
   templateUrl: './enrol.component.html',
   styleUrls: ['./enrol.component.scss'],
 })
-export class EnrolComponent implements OnInit {
+export class EnrolComponent {
+  private readonly http = inject(HttpClient);
+
   form = {
     consumerName: '',
     consumerNumber: '',
@@ -22,18 +26,7 @@ export class EnrolComponent implements OnInit {
 
   errors: { [key: string]: string } = {};
   submitMessage = '';
-
-  ngOnInit(): void {
-    // Initialize EmailJS if credentials are provided
-    const publicKey = 'YOUR_PUBLIC_KEY_HERE';
-    if (publicKey && publicKey !== 'YOUR_PUBLIC_KEY_HERE') {
-      try {
-        emailjs.init(publicKey);
-      } catch (error) {
-        console.error('Failed to initialize EmailJS:', error);
-      }
-    }
-  }
+  submitInProgress = false;
 
   onFileSelected(event: any): void {
     const file = event.target.files?.[0];
@@ -92,52 +85,47 @@ export class EnrolComponent implements OnInit {
     return Object.keys(this.errors).length === 0;
   }
 
-  onSubmit(): void {
-    if (!this.validateForm()) {
+  async onSubmit(): Promise<void> {
+    if (!this.validateForm() || this.submitInProgress) {
       return;
     }
 
     // Send email notification with form data
-    this.sendEnrolmentEmail();
+    this.submitInProgress = true;
+    try {
+      await this.sendEnrolmentEmail();
+    } finally {
+      this.submitInProgress = false;
+    }
   }
 
-  sendEnrolmentEmail(): void {
-    const publicKey = 'YOUR_PUBLIC_KEY_HERE';
-    const serviceId = 'service_xxxxxxx';
-    const templateId = 'template_xxxxxxx';
+  private async sendEnrolmentEmail(): Promise<void> {
+    const apiUrl = environment.enrolApiUrl;
 
-    // Check if EmailJS is properly configured
-    if (publicKey === 'YOUR_PUBLIC_KEY_HERE' || serviceId === 'service_xxxxxxx' || templateId === 'template_xxxxxxx') {
-      // EmailJS not configured - show success anyway and log to console
-      console.warn('EmailJS credentials not configured. Enrolment accepted but email notification skipped.');
+    if (!apiUrl || apiUrl.includes('YOUR_API_ENDPOINT')) {
+      console.warn('API endpoint not configured. Enrolment accepted but email notification skipped.');
       this.submitMessage = 'Enrolment successful! We have received your details and will contact you shortly.';
       this.resetForm();
       return;
     }
 
-    const emailParams = {
-      to_email: 'contact@solartantra.com',
-      from_name: this.form.consumerName,
-      consumer_number: this.form.consumerNumber,
-      consumer_address: this.form.consumerAddress,
-      postal_code: this.form.postalCode,
-      phone_number: this.form.phoneNumber,
-      message: `New enrolment received from ${this.form.consumerName}.\n\nConsumer Number: ${this.form.consumerNumber}\n\nAddress: ${this.form.consumerAddress}\n\nPostal Code: ${this.form.postalCode}\n\nPhone Number: ${this.form.phoneNumber}`,
-    };
+    const formData = new FormData();
+    formData.append('consumerName', this.form.consumerName);
+    formData.append('consumerNumber', this.form.consumerNumber);
+    formData.append('consumerAddress', this.form.consumerAddress);
+    formData.append('postalCode', this.form.postalCode);
+    formData.append('phoneNumber', this.form.phoneNumber);
+    formData.append('subject', 'New Solartantra enrolment');
+    formData.append('captchaToken', '');
 
-    // Send email with configured credentials
-    emailjs.send(serviceId, templateId, emailParams)
-      .then((response) => {
-        console.log('Email sent successfully:', response.status, response.text);
-        this.submitMessage = 'Enrolment successful! Confirmation email sent to contact@solartantra.com';
-        this.resetForm();
-      })
-      .catch((error) => {
-        console.error('Failed to send email:', error);
-        // Show success anyway since form was valid
-        this.submitMessage = 'Enrolment successful! We have received your details. Email notification may have been skipped.';
-        this.resetForm();
-      });
+    if (this.form.billPhoto) {
+      formData.append('billPhoto', this.form.billPhoto, this.form.billPhoto.name);
+    }
+
+    await firstValueFrom(this.http.post(apiUrl, formData));
+
+    this.submitMessage = 'Enrolment successful! We have received your details.';
+    this.resetForm();
   }
 
   resetForm(): void {
